@@ -4,6 +4,7 @@
   "description": "Hurb front-end challenge",
   "main": "index.ts",
   "scripts": {
+    "start": "webpack serve --open",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
