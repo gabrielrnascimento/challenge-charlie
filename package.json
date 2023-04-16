@@ -9,8 +9,12 @@
     "build": "docker compose build",
     "up": "docker compose up -d",
     "down": "docker compose down",
+    "prepare": "husky install",
+    "lint-staged": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
     "test": "jest --passWithNoTests --no-cache --runInBand",
-    "test:watch": "npm test -- --watch"
+    "test:watch": "npm test -- --watch",
+    "test:staged": "npm test -- --findRelatedTests",
+    "test:ci": "npm test --"
   },
   "repository": {
     "type": "git",
