@@ -22,9 +22,7 @@ module.exports = {
   ],
   settings: {
     "import/resolver": {
-      node: {
-        extensions: [ ".js", ".jsx", ".ts", ".tsx" ],
-      },
+      "typescript": {}
     },
   },
   overrides: [
@@ -46,7 +44,8 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/semi": [ "error", "always" ],
     "@typescript-eslint/indent": [ "error", 2 ],
-    "@typescript-eslint/consistent-type-definitions": [ "error", "type" ],
+    // "@typescript-eslint/consistent-type-definitions": [ "error", "type" ],
+    "@typescript-eslint/no-namespace": "off",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "error",
     // "react/jsx-props-no-spreading": "off",
