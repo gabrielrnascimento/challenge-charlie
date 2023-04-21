@@ -36,6 +36,9 @@ module.exports = {
   ],
   rules: {
     // "prettier/prettier": ["error"],
+    'key-spacing': [ 'error', { 'afterColon': true } ],
+    'no-useless-constructor': 'off',
+    'lines-between-class-members': 'off',
     'quotes': [ 'error', 'single', { 'avoidEscape': true } ],
     'class-methods-use-this': 'off',
     'react/jsx-filename-extension': [ 1, { extensions: [ '.tsx' ] } ],
@@ -62,9 +65,14 @@ module.exports = {
     'array-bracket-spacing': [ 'error', 'always' ],
     'object-curly-spacing': [ 'error', 'always' ],
     'object-curly-newline': [ 'error', {
-      'consistent': true,
-      'multiline': true,
-      'minProperties': 3
+      'ObjectExpression': {
+        'consistent': true, 'multiline': true, 'minProperties': 3 
+      },
+      'ObjectPattern': {
+        'consistent': true, 'multiline': true, 'minProperties': 3 
+      },
+      'ImportDeclaration': 'never',
+      'ExportDeclaration': { 'multiline': true, 'minProperties': 3 }
     } ],
     'newline-destructuring/newline': [ 'error' ],
     'object-property-newline': [ 'error', { 'allowAllPropertiesOnSameLine': true } ],
