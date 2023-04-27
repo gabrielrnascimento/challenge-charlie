@@ -13,7 +13,7 @@ module.exports = {
     filename: 'bundle-[hash].js',
   },
   resolve: {
-    extensions: [ '.ts', '.tsx', '.js', 'jsx' ]
+    extensions: [ '.ts', '.tsx', '.js', '.jsx' ]
   },
   module: {
     rules: [
@@ -47,6 +47,14 @@ module.exports = {
             loader: 'sass-loader'
           }
         ]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource'
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
       }
     ]
   },
@@ -55,7 +63,7 @@ module.exports = {
       template: './public/index.html'
     }),
     new StylelintPlugin({
-      files: "**/*.scss",
+      files: '**/*.scss',
       emitError: true,
       failOnError: true
     })
