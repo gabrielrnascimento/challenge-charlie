@@ -3,14 +3,22 @@ import { mockErrorGeolocation, mockSuccessGeolocation } from '@/data/test';
 import { BrowserUserCoordinates } from './browser-user-coordinates';
 
 describe('BrowserUserCoordinates', () => {
-  test('should retrieve GeolocationPosition on success', async () => {
+  test('should return UserCoordinates.Model on success', async () => {
     const { mockPosition } = mockSuccessGeolocation();
     const browserUserCoordinates = new BrowserUserCoordinates();
     const response = await browserUserCoordinates.get();
-    expect(response).toBe(mockPosition);
+    const { coords } = mockPosition;
+    const { latitude, longitude } = coords;
+    const expectedResponse = {
+      coords: {
+        latitude,
+        longitude
+      }
+    };
+    expect(response).toStrictEqual(expectedResponse);
   });
 
-  test('should retrieve GeolocationPositionError on error', async () => {
+  test('should return GeolocationPositionError on error', async () => {
     const { mockPosition } = mockErrorGeolocation();
     const browserUserCoordinates = new BrowserUserCoordinates();
     const response = browserUserCoordinates.get();
