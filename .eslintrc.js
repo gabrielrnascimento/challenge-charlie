@@ -66,10 +66,10 @@ module.exports = {
     'object-curly-spacing': [ 'error', 'always' ],
     'object-curly-newline': [ 'error', {
       'ObjectExpression': {
-        'consistent': true, 'multiline': true, 'minProperties': 3 
+        'consistent': true, 'multiline': true, 'minProperties': 3
       },
       'ObjectPattern': {
-        'consistent': true, 'multiline': true, 'minProperties': 3 
+        'consistent': true, 'multiline': true, 'minProperties': 3
       },
       'ImportDeclaration': 'never',
       'ExportDeclaration': { 'multiline': true, 'minProperties': 3 }
@@ -83,7 +83,7 @@ module.exports = {
     ],
     'import/no-extraneous-dependencies': [
       'error',
-      { devDependencies: [ '**/*.spec.ts', '**/*.spec.tsx' ] },
+      { devDependencies: [ '**/*.spec.ts', '**/*.spec.tsx', '**/mock-*.ts', '**/mock-*.tsx' ] },
     ],
     'import/order': [
       'error',
