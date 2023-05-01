@@ -1,8 +1,9 @@
-type geolocationResponse = GeolocationPosition | GeolocationPositionError;
+import { type UserCoordinates } from '@/domain/usecases/user-coordinates';
 
-export class BrowserUserCoordinates {
-  async get (): Promise<geolocationResponse>{
-    return new Promise<geolocationResponse>((resolve, reject) => {
+type geolocationResponse = GeolocationPosition | GeolocationPositionError;
+export class BrowserUserCoordinates implements UserCoordinates{
+  async get (): Promise<UserCoordinates.Model>{
+    const response = await new Promise<geolocationResponse>((resolve, reject) => {
       global.navigator.geolocation.getCurrentPosition(
         (geolocation: GeolocationPosition) => {
           resolve(geolocation);
@@ -12,5 +13,13 @@ export class BrowserUserCoordinates {
         }
       );
     });
+    const { coords } = response as GeolocationPosition;
+    const { latitude, longitude } = coords;
+    return {
+      coords: {
+        latitude,
+        longitude
+      }
+    };
   }
 }
