@@ -19,10 +19,11 @@ const makeSut = (url: string = faker.internet.url()): SutTypes => {
 };
 
 describe('BrowserUserLocation', () => {
-  test('should call HttpClient with correct url', async () => {
+  test('should call HttpClient with correct params', async () => {
     const url = faker.internet.url();
     const { httpClientSpy, sut } = makeSut(url);
     await sut.get();
     expect(httpClientSpy.url).toBe(url);
+    expect(httpClientSpy.method).toBe('get');
   });
 });
