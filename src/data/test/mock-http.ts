@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { type HttpRequest, type HttpClient, type HttpResponse } from '../protocols/http';
+import { type HttpRequest, type HttpClient, type HttpResponse, HttpStatus } from '../protocols/http';
 
 export const mockHttpRequest = (): HttpRequest => ({
   url: faker.internet.url(),
@@ -8,7 +8,7 @@ export const mockHttpRequest = (): HttpRequest => ({
 });
 
 export const mockHttpResponse = (): HttpResponse<any> => ({
-  statusCode: 200,
+  statusCode: HttpStatus.ok,
   body: {
     data: {
       lorem: faker.lorem.word(),

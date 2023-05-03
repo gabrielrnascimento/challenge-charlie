@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 
+import { HttpStatus } from '@/data/protocols/http';
 import { HttpClientSpy } from '@/data/test';
 import { UnexpectedError } from '@/domain/errors/http';
 
@@ -30,7 +31,14 @@ describe('BrowserUserLocation', () => {
 
   test('should throw UnexpectedError on 400', async () => {
     const { httpClientSpy, sut } = makeSut();
-    httpClientSpy.response.statusCode = 400;
+    httpClientSpy.response.statusCode = HttpStatus.badRequest;
+    const response = sut.get();
+    await expect(response).rejects.toThrow(new UnexpectedError());
+  });
+
+  test('should throw UnexpectedError on 404', async () => {
+    const { httpClientSpy, sut } = makeSut();
+    httpClientSpy.response.statusCode = HttpStatus.notFound;
     const response = sut.get();
     await expect(response).rejects.toThrow(new UnexpectedError());
   });
