@@ -1,4 +1,4 @@
-import { type HttpClient } from '@/data/protocols/http';
+import { HttpStatus, type HttpClient } from '@/data/protocols/http';
 import { UnexpectedError } from '@/domain/errors/http';
 
 export class BrowserUserLocation {
@@ -10,11 +10,11 @@ export class BrowserUserLocation {
   async get (): Promise<void> {
     const response = await this.httpClient.request({ url: this.url, method: 'get' });
     switch (response.statusCode) {
-      case 400:
+      case HttpStatus.badRequest:
+        throw new UnexpectedError();
+      case HttpStatus.notFound:
         throw new UnexpectedError();
       default:
-
     }
   }
 }
-
