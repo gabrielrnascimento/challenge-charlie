@@ -42,4 +42,11 @@ describe('BrowserUserLocation', () => {
     const response = sut.get();
     await expect(response).rejects.toThrow(new UnexpectedError());
   });
+
+  test('should throw UnexpectedError on 500', async () => {
+    const { httpClientSpy, sut } = makeSut();
+    httpClientSpy.response.statusCode = HttpStatus.serverError;
+    const response = sut.get();
+    await expect(response).rejects.toThrow(new UnexpectedError());
+  });
 });
