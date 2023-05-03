@@ -14,6 +14,8 @@ export class BrowserUserLocation {
         throw new UnexpectedError();
       case HttpStatus.notFound:
         throw new UnexpectedError();
+      case HttpStatus.serverError:
+        throw new UnexpectedError();
       default:
     }
   }
