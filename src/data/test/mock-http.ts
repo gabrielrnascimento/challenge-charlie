@@ -8,7 +8,7 @@ export const mockHttpRequest = (): HttpRequest => ({
 });
 
 export const mockHttpResponse = (): HttpResponse<any> => ({
-  statusCode: faker.helpers.arrayElement([ 200, 400, 404, 500 ]),
+  statusCode: 200,
   body: {
     data: {
       lorem: faker.lorem.word(),
@@ -20,10 +20,11 @@ export const mockHttpResponse = (): HttpResponse<any> => ({
 export class HttpClientSpy implements HttpClient<any> {
   url!: string;
   method!: string;
+  response: HttpResponse<any> = mockHttpResponse();
 
   request (params: HttpRequest): Promise<HttpResponse<any>> {
     this.url = params.url;
     this.method = params.method;
-    return Promise.resolve(mockHttpResponse());
+    return Promise.resolve(this.response);
   }
 }

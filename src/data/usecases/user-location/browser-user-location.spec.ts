@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import { HttpClientSpy } from '@/data/test';
+import { UnexpectedError } from '@/domain/errors/http';
 
 import { BrowserUserLocation } from './browser-user-location';
 
@@ -25,5 +26,12 @@ describe('BrowserUserLocation', () => {
     await sut.get();
     expect(httpClientSpy.url).toBe(url);
     expect(httpClientSpy.method).toBe('get');
+  });
+
+  test('should throw UnexpectedError on 400', async () => {
+    const { httpClientSpy, sut } = makeSut();
+    httpClientSpy.response.statusCode = 400;
+    const response = sut.get();
+    await expect(response).rejects.toThrow(new UnexpectedError());
   });
 });
