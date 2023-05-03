@@ -1,4 +1,5 @@
 import { type HttpClient } from '@/data/protocols/http';
+import { UnexpectedError } from '@/domain/errors/http';
 
 export class BrowserUserLocation {
   constructor(
@@ -6,8 +7,14 @@ export class BrowserUserLocation {
     private readonly url: string
   ) {}
 
-  get (): void {
-    this.httpClient.request({ url: this.url, method: 'get' });
+  async get (): Promise<void> {
+    const response = await this.httpClient.request({ url: this.url, method: 'get' });
+    switch (response.statusCode) {
+      case 400:
+        throw new UnexpectedError();
+      default:
+
+    }
   }
 }
 
