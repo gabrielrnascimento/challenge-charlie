@@ -1,7 +1,7 @@
 import type axios from 'axios';
 
 import { mockHttpRequest } from '@/data/test';
-import { mockAxios } from '@/infra/test/mock-axios';
+import { mockAxios, mockHttpResponse } from '@/infra/test/mock-axios';
 
 import { AxiosHttpClient } from './axios-http-client';
 
@@ -32,5 +32,14 @@ describe('AxiosHttpClient', () => {
       body: request.body,
       headers: request.headers
     });
+  });
+
+  test('should return correct response', async () => {
+    const { sut, mockedAxios } = makeSut();
+    const request = mockHttpRequest();
+    const mockResponse = mockHttpResponse();
+    mockedAxios.request.mockResolvedValue(mockResponse);
+    const response = await sut.request(request);
+    expect(response).toBe(mockResponse);
   });
 });
