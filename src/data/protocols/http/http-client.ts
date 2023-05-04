@@ -3,6 +3,8 @@ export type HttpClientMethod = 'get';
 export type HttpRequest = {
   url: string,
   method: HttpClientMethod,
+  body?: any,
+  headers?: any
 };
 
 export enum HttpStatus {
