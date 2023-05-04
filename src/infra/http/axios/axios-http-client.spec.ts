@@ -1,6 +1,5 @@
 import type axios from 'axios';
 
-import { type HttpRequest } from '@/data/protocols/http';
 import { mockHttpRequest } from '@/data/test';
 import { mockAxios, mockHttpResponse } from '@/infra/test/mock-axios';
 
@@ -11,27 +10,21 @@ jest.mock('axios');
 type SutTypes = {
   sut: AxiosHttpClient,
   mockedAxios: jest.Mocked<typeof axios>
-  request: HttpRequest
 };
 
 const makeSut = (): SutTypes => {
   const sut = new AxiosHttpClient();
-  const request = mockHttpRequest();
   const mockedAxios = mockAxios();
   return {
     sut,
     mockedAxios,
-    request
   };
 };
 
 describe('AxiosHttpClient', () => {
   test('should call axios with correct params', async () => {
-    const {
-      sut,
-      mockedAxios,
-      request
-    } = makeSut();
+    const { sut, mockedAxios } = makeSut();
+    const request = mockHttpRequest();
     await sut.request(request);
     expect(mockedAxios.request).toHaveBeenCalledWith({
       url: request.url,
@@ -41,15 +34,26 @@ describe('AxiosHttpClient', () => {
     });
   });
 
-  test('should return correct response', async () => {
-    const {
-      sut,
-      mockedAxios,
-      request
-    } = makeSut();
+  test('should return correct response if axios promise resolves', async () => {
+    const { sut, mockedAxios } = makeSut();
+    mockedAxios.request.mockResolvedValue(mockHttpResponse());
+    const request = mockHttpRequest();
+    const httpResponse = await sut.request(request);
+    const axiosResponse = await mockedAxios.request.mock.results[0].value;
+    expect(httpResponse.statusCode).toBe(axiosResponse.status);
+    expect(httpResponse.body).toBe(axiosResponse.data);
+  });
+
+  test('should return correct error if axios promise rejects', async () => {
+    const { sut, mockedAxios } = makeSut();
     const mockResponse = mockHttpResponse();
-    mockedAxios.request.mockResolvedValue(mockResponse);
-    const response = await sut.request(request);
-    expect(response).toBe(mockResponse);
+
+    mockedAxios.request.mockRejectedValueOnce({
+      response: mockResponse
+    });
+
+    const promise = await sut.request(mockHttpRequest());
+    expect(promise.statusCode).toBe(mockResponse.status);
+    expect(promise.body).toBe(mockResponse.data);
   });
 });
