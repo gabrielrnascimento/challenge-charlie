@@ -14,6 +14,7 @@ type SutTypes = {
 const makeSut = (url: string = faker.internet.url()): SutTypes => {
   const httpClientSpy = new HttpClientSpy();
   const sut = new BrowserUserLocation(httpClientSpy, url);
+  httpClientSpy.response.statusCode = HttpStatus.ok;
   return {
     httpClientSpy,
     sut
@@ -49,4 +50,6 @@ describe('BrowserUserLocation', () => {
     const response = sut.get();
     await expect(response).rejects.toThrow(new UnexpectedError());
   });
+
+  // TODO happy path
 });
