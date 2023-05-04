@@ -6,7 +6,13 @@ export class AxiosHttpClient implements HttpClient<HttpResponse> {
   async request (params: HttpRequest): Promise<HttpResponse> {
     let axiosResponse: AxiosResponse;
     try {
-      axiosResponse = await axios.request(params);
+      axiosResponse = await axios.request({
+        url: params.url,
+        method: params.method,
+        data: params.body,
+        headers: params.headers
+      }
+      );
     } catch (error: any) {
       if (error.response) {
         axiosResponse = error.response;
