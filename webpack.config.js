@@ -2,6 +2,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 
+const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 
@@ -62,6 +63,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new Dotenv(),
     new HtmlWebpackPlugin({
       template: './public/index.html'
     }),
