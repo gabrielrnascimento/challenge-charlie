@@ -2,7 +2,7 @@ import { HttpStatus, type HttpClient, type HttpResponse } from '@/data/protocols
 import { UnexpectedError } from '@/domain/errors/http';
 import { type UserLocation } from '@/domain/usecases/user-location';
 
-export class OpenCageUserLocation {
+export class OpenCageUserLocation implements UserLocation {
   constructor(
     private readonly httpClient: HttpClient<any>,
     private readonly url: string,
