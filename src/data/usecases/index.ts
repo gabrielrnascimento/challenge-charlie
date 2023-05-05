@@ -1,2 +1,2 @@
 export * from './user-coordinates/browser-user-coordinates';
-export * from './user-location/browser-user-location';
+export * from './user-location/open-cage-user-location';

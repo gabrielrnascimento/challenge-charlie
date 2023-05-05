@@ -4,17 +4,17 @@ import { type HttpResponse, HttpStatus } from '@/data/protocols/http';
 import { HttpClientSpy, mockHttpClientOpenCageResponse } from '@/data/test';
 import { UnexpectedError } from '@/domain/errors/http';
 
-import { BrowserUserLocation } from './browser-user-location';
+import { OpenCageUserLocation } from './open-cage-user-location';
 
 type SutTypes = {
   httpClientSpy: HttpClientSpy,
   mockResponse: HttpResponse,
-  sut:BrowserUserLocation
+  sut: OpenCageUserLocation
 };
 
 const makeSut = (url: string = faker.internet.url(), params: any = faker.random.word()): SutTypes => {
   const httpClientSpy = new HttpClientSpy();
-  const sut = new BrowserUserLocation(httpClientSpy, url, params);
+  const sut = new OpenCageUserLocation(httpClientSpy, url, params);
   const mockResponse = mockHttpClientOpenCageResponse();
   httpClientSpy.response = mockResponse;
   return {
@@ -24,7 +24,7 @@ const makeSut = (url: string = faker.internet.url(), params: any = faker.random.
   };
 };
 
-describe('BrowserUserLocation', () => {
+describe('OpenCageUserLocation', () => {
   test('should call HttpClient with correct data', async () => {
     const url = faker.internet.url();
     const params = faker.random.word();
