@@ -21,12 +21,14 @@ export const mockHttpResponse = (): HttpResponse<any> => ({
 
 export class HttpClientSpy implements HttpClient<any> {
   url!: string;
+  params!: any;
   method!: string;
   response: HttpResponse<any> = mockHttpResponse();
 
-  request (params: HttpRequest): Promise<HttpResponse<any>> {
-    this.url = params.url;
-    this.method = params.method;
+  request (data: HttpRequest): Promise<HttpResponse<any>> {
+    this.url = data.url;
+    this.params = data.params;
+    this.method = data.method;
     return Promise.resolve(this.response);
   }
 }
