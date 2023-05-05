@@ -2,6 +2,7 @@ export type HttpClientMethod = 'get';
 
 export type HttpRequest = {
   url: string,
+  params?: any,
   method: HttpClientMethod,
   body?: any,
   headers?: any

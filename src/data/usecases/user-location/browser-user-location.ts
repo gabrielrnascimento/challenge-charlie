@@ -4,11 +4,16 @@ import { UnexpectedError } from '@/domain/errors/http';
 export class BrowserUserLocation {
   constructor(
     private readonly httpClient: HttpClient<any>,
-    private readonly url: string
+    private readonly url: string,
+    private readonly params: any
   ) {}
 
   async get (): Promise<void> {
-    const response = await this.httpClient.request({ url: this.url, method: 'get' });
+    const response = await this.httpClient.request({
+      url: this.url,
+      params: this.params,
+      method: 'get'
+    });
     switch (response.statusCode) {
       case HttpStatus.badRequest:
         throw new UnexpectedError();
