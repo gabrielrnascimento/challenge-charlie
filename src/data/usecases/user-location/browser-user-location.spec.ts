@@ -1,22 +1,25 @@
 import { faker } from '@faker-js/faker';
 
-import { HttpStatus } from '@/data/protocols/http';
-import { HttpClientSpy } from '@/data/test';
+import { type HttpResponse, HttpStatus } from '@/data/protocols/http';
+import { HttpClientSpy, mockHttpClientOpenCageResponse } from '@/data/test';
 import { UnexpectedError } from '@/domain/errors/http';
 
 import { BrowserUserLocation } from './browser-user-location';
 
 type SutTypes = {
   httpClientSpy: HttpClientSpy,
+  mockResponse: HttpResponse,
   sut:BrowserUserLocation
 };
 
 const makeSut = (url: string = faker.internet.url(), params: any = faker.random.word()): SutTypes => {
   const httpClientSpy = new HttpClientSpy();
   const sut = new BrowserUserLocation(httpClientSpy, url, params);
-  httpClientSpy.response.statusCode = HttpStatus.ok;
+  const mockResponse = mockHttpClientOpenCageResponse();
+  httpClientSpy.response = mockResponse;
   return {
     httpClientSpy,
+    mockResponse,
     sut
   };
 };
@@ -51,5 +54,22 @@ describe('BrowserUserLocation', () => {
     httpClientSpy.response.statusCode = HttpStatus.serverError;
     const response = sut.get();
     await expect(response).rejects.toThrow(new UnexpectedError());
+  });
+
+  test('should return UserLocation.Model on success', async () => {
+    const {
+      httpClientSpy,
+      mockResponse,
+      sut
+    } = makeSut();
+
+    httpClientSpy.response = mockResponse;
+    const [ { components: mockLocationResponse } ] = mockResponse.body.results;
+    const response = await sut.get();
+
+    expect(response.statusCode).toBe(mockResponse.statusCode);
+    expect(response.body.city).toBe(mockLocationResponse.city);
+    expect(response.body.state).toBe(mockLocationResponse.state);
+    expect(response.body.country).toBe(mockLocationResponse.country);
   });
 });
