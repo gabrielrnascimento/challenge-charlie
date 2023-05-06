@@ -16,10 +16,8 @@ export class BrowserUserCoordinates implements UserCoordinates{
     const { coords } = response as GeolocationPosition;
     const { latitude, longitude } = coords;
     return {
-      coords: {
-        latitude,
-        longitude
-      }
+      latitude,
+      longitude
     };
   }
 }

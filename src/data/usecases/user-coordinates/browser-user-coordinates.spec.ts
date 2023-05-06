@@ -10,10 +10,8 @@ describe('BrowserUserCoordinates', () => {
     const { coords } = mockPosition;
     const { latitude, longitude } = coords;
     const expectedResponse = {
-      coords: {
-        latitude,
-        longitude
-      }
+      latitude,
+      longitude
     };
     expect(response).toStrictEqual(expectedResponse);
   });
