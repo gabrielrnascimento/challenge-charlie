@@ -1,12 +1,14 @@
+import { type OpenCageParams } from '@/data/models';
 import { HttpStatus, type HttpClient, type HttpResponse } from '@/data/protocols/http';
 import { UnexpectedError } from '@/domain/errors/http';
 import { type UserLocation } from '@/domain/usecases/user-location';
 
 export class OpenCageUserLocation implements UserLocation {
+  readonly url: string = process.env.OPEN_CAGE_API_URL as string;
+
   constructor(
     private readonly httpClient: HttpClient<any>,
-    private readonly url: string,
-    private readonly params: any
+    private readonly params: OpenCageParams
   ) {}
 
   async get (): Promise<HttpResponse<UserLocation.Model>> {
