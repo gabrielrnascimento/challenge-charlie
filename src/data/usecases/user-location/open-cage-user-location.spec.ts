@@ -1,7 +1,6 @@
-import { faker } from '@faker-js/faker';
-
+import { type OpenCageParams } from '@/data/models';
 import { type HttpResponse, HttpStatus } from '@/data/protocols/http';
-import { HttpClientSpy, mockHttpClientOpenCageResponse } from '@/data/test';
+import { HttpClientSpy, mockHttpClientOpenCageResponse, mockOpenCageParam } from '@/data/test';
 import { UnexpectedError } from '@/domain/errors/http';
 
 import { OpenCageUserLocation } from './open-cage-user-location';
@@ -12,9 +11,9 @@ type SutTypes = {
   sut: OpenCageUserLocation
 };
 
-const makeSut = (url: string = faker.internet.url(), params: any = faker.random.word()): SutTypes => {
+const makeSut = (params: OpenCageParams = mockOpenCageParam()): SutTypes => {
   const httpClientSpy = new HttpClientSpy();
-  const sut = new OpenCageUserLocation(httpClientSpy, url, params);
+  const sut = new OpenCageUserLocation(httpClientSpy, params);
   const mockResponse = mockHttpClientOpenCageResponse();
   httpClientSpy.response = mockResponse;
   return {
@@ -26,11 +25,10 @@ const makeSut = (url: string = faker.internet.url(), params: any = faker.random.
 
 describe('OpenCageUserLocation', () => {
   test('should call HttpClient with correct data', async () => {
-    const url = faker.internet.url();
-    const params = faker.random.word();
-    const { httpClientSpy, sut } = makeSut(url, params);
+    const params = mockOpenCageParam();
+    const { httpClientSpy, sut } = makeSut(params);
     await sut.get();
-    expect(httpClientSpy.url).toBe(url);
+    expect(httpClientSpy.url).toBe(sut.url);
     expect(httpClientSpy.method).toBe('get');
     expect(httpClientSpy.params).toBe(params);
   });

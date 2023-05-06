@@ -1,3 +1,6 @@
+import { faker } from '@faker-js/faker';
+
+import { type OpenCageParams } from '../models';
 import { type HttpResponse, HttpStatus } from '../protocols/http';
 
 export const mockOpenCageResponse = {
@@ -154,6 +157,14 @@ export const mockOpenCageResponse = {
   },
   'total_results': 1
 };
+
+export const mockOpenCageParam = (): OpenCageParams => ({
+  key: faker.datatype.uuid(),
+  coords: {
+    latitude: parseFloat(faker.address.latitude()),
+    longitude: parseFloat(faker.address.longitude())
+  }
+});
 
 export const mockHttpClientOpenCageResponse = (): HttpResponse => ({
   statusCode: HttpStatus.ok,
