@@ -1,1 +1,3 @@
-export * from './mock-geolocation-position';
+export * from './mock-geolocation';
+export * from './mock-http';
+export * from './mock-user-location';

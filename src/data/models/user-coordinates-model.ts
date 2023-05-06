@@ -1,6 +1,4 @@
 export type UserCoordinatesModel = {
-  coords: {
-    latitude: number,
-    longitude: number
-  }
+  latitude: number,
+  longitude: number
 };
