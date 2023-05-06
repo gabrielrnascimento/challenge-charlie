@@ -1,11 +1,11 @@
 export type HttpClientMethod = 'get';
 
-export type HttpRequest = {
+export type HttpRequest<P = any, B = any, H = any> = {
   url: string,
-  params?: any,
+  params?: P,
   method: HttpClientMethod,
-  body?: any,
-  headers?: any
+  body?: B,
+  headers?:H
 };
 
 export enum HttpStatus {
