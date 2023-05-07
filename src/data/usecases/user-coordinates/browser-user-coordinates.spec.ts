@@ -1,4 +1,5 @@
 import { mockErrorGeolocation, mockSuccessGeolocation } from '@/data/test';
+import { UserDeniedGeolocationError } from '@/domain/errors/geolocation';
 
 import { BrowserUserCoordinates } from './browser-user-coordinates';
 
@@ -17,9 +18,9 @@ describe('BrowserUserCoordinates', () => {
   });
 
   test('should return GeolocationPositionError on error', async () => {
-    const { mockPosition } = mockErrorGeolocation();
+    mockErrorGeolocation();
     const browserUserCoordinates = new BrowserUserCoordinates();
     const response = browserUserCoordinates.get();
-    await expect(response).rejects.toEqual(mockPosition);
+    await expect(response).rejects.toThrow(new UserDeniedGeolocationError());
   });
 });
