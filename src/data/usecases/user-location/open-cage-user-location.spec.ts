@@ -1,7 +1,10 @@
-import { type OpenCageParams } from '@/data/models';
+import { faker } from '@faker-js/faker';
+
 import { type HttpResponse, HttpStatus } from '@/data/protocols/http';
-import { HttpClientSpy, mockHttpClientOpenCageResponse, mockOpenCageParam } from '@/data/test';
+import { HttpClientSpy, mockHttpClientOpenCageResponse } from '@/data/test';
+import { mockUserCoordinates } from '@/data/test/mock-user-coordinates';
 import { UnexpectedError } from '@/domain/errors/http';
+import { type UserCoordinates } from '@/domain/usecases/user-coordinates';
 
 import { OpenCageUserLocation } from './open-cage-user-location';
 
@@ -11,9 +14,9 @@ type SutTypes = {
   sut: OpenCageUserLocation
 };
 
-const makeSut = (params: OpenCageParams = mockOpenCageParam()): SutTypes => {
+const makeSut = (coords: UserCoordinates.Model= mockUserCoordinates()): SutTypes => {
   const httpClientSpy = new HttpClientSpy();
-  const sut = new OpenCageUserLocation(httpClientSpy, params);
+  const sut = new OpenCageUserLocation(httpClientSpy, coords);
   const mockResponse = mockHttpClientOpenCageResponse();
   httpClientSpy.response = mockResponse;
   return {
@@ -25,12 +28,21 @@ const makeSut = (params: OpenCageParams = mockOpenCageParam()): SutTypes => {
 
 describe('OpenCageUserLocation', () => {
   test('should call HttpClient with correct data', async () => {
-    const params = mockOpenCageParam();
-    const { httpClientSpy, sut } = makeSut(params);
+    jest.resetModules();
+    process.env.OPEN_CAGE_API_KEY = faker.datatype.uuid();
+    const coords = mockUserCoordinates();
+    const { httpClientSpy, sut } = makeSut(coords);
     await sut.get();
-    expect(httpClientSpy.url).toBe(sut.url);
-    expect(httpClientSpy.method).toBe('get');
-    expect(httpClientSpy.params).toBe(params);
+    const {
+      url,
+      method,
+      params
+    } = httpClientSpy;
+    const { key, q } = params;
+    expect(url).toBe(sut.url);
+    expect(method).toBe('get');
+    expect(key).toBe(process.env.OPEN_CAGE_API_KEY);
+    expect(q).toBe(`${coords.latitude},${coords.longitude}`);
   });
 
   test('should throw UnexpectedError on 400', async () => {
