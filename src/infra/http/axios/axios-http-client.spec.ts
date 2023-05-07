@@ -22,12 +22,13 @@ const makeSut = (): SutTypes => {
 };
 
 describe('AxiosHttpClient', () => {
-  test('should call axios with correct params', async () => {
+  test('should call axios with correct data', async () => {
     const { sut, mockedAxios } = makeSut();
     const request = mockHttpRequest();
     await sut.request(request);
     expect(mockedAxios.request).toHaveBeenCalledWith({
       url: request.url,
+      params: request.params,
       method: request.method,
       data: request.body,
       headers: request.headers
