@@ -3,15 +3,15 @@ import axios, { type AxiosResponse } from 'axios';
 import { type HttpResponse, type HttpClient, type HttpRequest } from '@/data/protocols/http';
 
 export class AxiosHttpClient implements HttpClient<HttpResponse> {
-  async request (params: HttpRequest): Promise<HttpResponse> {
+  async request (data: HttpRequest): Promise<HttpResponse> {
     let axiosResponse: AxiosResponse;
     try {
       axiosResponse = await axios.request({
-        url: params.url,
-        params: params.params,
-        method: params.method,
-        data: params.body,
-        headers: params.headers
+        url: data.url,
+        params: data.params,
+        method: data.method,
+        data: data.body,
+        headers: data.headers
       }
       );
     } catch (error: any) {
