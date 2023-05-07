@@ -12,6 +12,7 @@
     "prepare": "husky install",
     "lint-staged": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
     "test": "jest --passWithNoTests --no-cache --runInBand",
+    "test:coverage": "npm test -- --coverage",
     "test:watch": "npm test -- --watch",
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test --"
