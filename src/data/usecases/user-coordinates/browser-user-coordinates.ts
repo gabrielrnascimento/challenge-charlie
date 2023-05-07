@@ -1,4 +1,4 @@
-import { UserDeniedGeolocationError } from '@/domain/errors/geolocation';
+import { UnexpectedError, UserDeniedGeolocationError } from '@/domain/errors';
 import { type UserCoordinates } from '@/domain/usecases/user-coordinates';
 
 type geolocationResponse = GeolocationPosition | GeolocationPositionError;
@@ -22,12 +22,16 @@ export class BrowserUserCoordinates implements UserCoordinates{
         latitude,
         longitude
       };
-    } catch (error) {
-      throw new UserDeniedGeolocationError();
+    } catch (error: any) {
+      if (error.code === 1) {
+        throw new UserDeniedGeolocationError();
+      } else {
+        throw new UnexpectedError();
+      }
     }
     return {
-      latitude: userCoordinates?.latitude as number,
-      longitude: userCoordinates?.longitude as number
+      latitude: userCoordinates.latitude as number,
+      longitude: userCoordinates.longitude as number
     };
   }
 }

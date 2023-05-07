@@ -1,5 +1,5 @@
 import { HttpStatus, type HttpClient, type HttpResponse } from '@/data/protocols/http';
-import { UnexpectedError } from '@/domain/errors/http';
+import { UnexpectedError } from '@/domain/errors/';
 import { type UserCoordinates } from '@/domain/usecases/user-coordinates';
 import { type UserLocation } from '@/domain/usecases/user-location';
 

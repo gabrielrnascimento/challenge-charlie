@@ -3,10 +3,11 @@ import { faker } from '@faker-js/faker';
 import { type HttpResponse, HttpStatus } from '@/data/protocols/http';
 import { HttpClientSpy, mockHttpClientOpenCageResponse } from '@/data/test';
 import { mockUserCoordinates } from '@/data/test/mock-user-coordinates';
-import { UnexpectedError } from '@/domain/errors/http';
+import { UnexpectedError } from '@/domain/errors/';
 import { type UserCoordinates } from '@/domain/usecases/user-coordinates';
 
 import { OpenCageUserLocation } from './open-cage-user-location';
+
 
 type SutTypes = {
   httpClientSpy: HttpClientSpy,
