@@ -45,12 +45,38 @@ describe('AxiosHttpClient', () => {
     expect(httpResponse.body).toBe(axiosResponse.data);
   });
 
-  test('should return correct error if axios promise rejects', async () => {
+  test('should return correct error if axios promise rejects with error.response', async () => {
     const { sut, mockedAxios } = makeSut();
     const mockResponse = mockHttpResponse();
 
     mockedAxios.request.mockRejectedValueOnce({
       response: mockResponse
+    });
+
+    const promise = await sut.request(mockHttpRequest());
+    expect(promise.statusCode).toBe(mockResponse.status);
+    expect(promise.body).toBe(mockResponse.data);
+  });
+
+  test('should return correct error if axios promise rejects with error.request', async () => {
+    const { sut, mockedAxios } = makeSut();
+    const mockResponse = mockHttpResponse();
+
+    mockedAxios.request.mockRejectedValueOnce({
+      request: mockResponse
+    });
+
+    const promise = await sut.request(mockHttpRequest());
+    expect(promise.statusCode).toBe(mockResponse.status);
+    expect(promise.body).toBe(mockResponse.data);
+  });
+
+  test('should return correct error if axios promise rejects with error.message', async () => {
+    const { sut, mockedAxios } = makeSut();
+    const mockResponse = mockHttpResponse();
+
+    mockedAxios.request.mockRejectedValueOnce({
+      message: mockResponse
     });
 
     const promise = await sut.request(mockHttpRequest());
