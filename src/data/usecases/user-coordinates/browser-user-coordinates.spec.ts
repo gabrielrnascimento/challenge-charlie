@@ -1,4 +1,7 @@
-import { mockErrorGeolocation, mockSuccessGeolocation } from '@/data/test';
+import { faker } from '@faker-js/faker';
+
+import { mockErrorGeolocation, mockErrorGeolocationPosition, mockSuccessGeolocation } from '@/data/test';
+import { UserDeniedGeolocationError, UnexpectedError } from '@/domain/errors/';
 
 import { BrowserUserCoordinates } from './browser-user-coordinates';
 
@@ -16,10 +19,20 @@ describe('BrowserUserCoordinates', () => {
     expect(response).toStrictEqual(expectedResponse);
   });
 
-  test('should return GeolocationPositionError on error', async () => {
-    const { mockPosition } = mockErrorGeolocation();
+  test('should throw UserDeniedGeolocationError if user denies location', async () => {
+    mockErrorGeolocation();
     const browserUserCoordinates = new BrowserUserCoordinates();
     const response = browserUserCoordinates.get();
-    await expect(response).rejects.toEqual(mockPosition);
+    await expect(response).rejects.toThrow(new UserDeniedGeolocationError());
+  });
+
+  test('should throw generic error if other error occurrs', async () => {
+    const mockError = mockErrorGeolocationPosition();
+    mockError.code = faker.helpers.arrayElement([ 2, 3 ]);
+    mockError.message = faker.random.words();
+    mockErrorGeolocation(mockError);
+    const browserUserCoordinates = new BrowserUserCoordinates();
+    const response = browserUserCoordinates.get();
+    await expect(response).rejects.toThrow(new UnexpectedError()) ;
   });
 });

@@ -12,6 +12,7 @@
     "prepare": "husky install",
     "lint-staged": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
     "test": "jest --passWithNoTests --no-cache --runInBand",
+    "test:coverage": "npm test -- --coverage",
     "test:watch": "npm test -- --watch",
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test --"
@@ -67,6 +68,7 @@
     "node-sass": "^8.0.0",
     "prettier": "^2.8.7",
     "sass-loader": "^13.2.2",
+    "source-map-loader": "^4.0.1",
     "style-loader": "^3.3.2",
     "stylelint": "^15.5.0",
     "stylelint-config-recommended-scss": "^10.0.0",
@@ -80,7 +82,9 @@
   },
   "dependencies": {
     "axios": "^1.4.0",
+    "i18next": "^22.4.15",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-i18next": "^12.2.2"
   }
 }

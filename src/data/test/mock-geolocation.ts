@@ -46,13 +46,12 @@ export const mockErrorGeolocationPosition = (): GeolocationPositionError => ({
 });
 
 type mockGeolocationPositionErrorResponse = {
-  mockPosition: GeolocationPositionError
+  mockError: GeolocationPositionError
 };
 
-export const mockErrorGeolocation = (): mockGeolocationPositionErrorResponse => {
-  const mockPosition = mockErrorGeolocationPosition();
+export const mockErrorGeolocation = (mockError: GeolocationPositionError = mockErrorGeolocationPosition()): mockGeolocationPositionErrorResponse => {
   const getCurrentPositionMock = jest.fn((successCallback, errorCallback) => {
-    errorCallback(mockPosition);
+    errorCallback(mockError);
   });
   const geolocation = {
     getCurrentPosition: getCurrentPositionMock
@@ -62,7 +61,7 @@ export const mockErrorGeolocation = (): mockGeolocationPositionErrorResponse => 
     configurable: true
   });
   return {
-    mockPosition
+    mockError
   };
 };
 

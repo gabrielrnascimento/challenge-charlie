@@ -22,12 +22,13 @@ const makeSut = (): SutTypes => {
 };
 
 describe('AxiosHttpClient', () => {
-  test('should call axios with correct params', async () => {
+  test('should call axios with correct data', async () => {
     const { sut, mockedAxios } = makeSut();
     const request = mockHttpRequest();
     await sut.request(request);
     expect(mockedAxios.request).toHaveBeenCalledWith({
       url: request.url,
+      params: request.params,
       method: request.method,
       data: request.body,
       headers: request.headers
@@ -44,12 +45,38 @@ describe('AxiosHttpClient', () => {
     expect(httpResponse.body).toBe(axiosResponse.data);
   });
 
-  test('should return correct error if axios promise rejects', async () => {
+  test('should return correct error if axios promise rejects with error.response', async () => {
     const { sut, mockedAxios } = makeSut();
     const mockResponse = mockHttpResponse();
 
     mockedAxios.request.mockRejectedValueOnce({
       response: mockResponse
+    });
+
+    const promise = await sut.request(mockHttpRequest());
+    expect(promise.statusCode).toBe(mockResponse.status);
+    expect(promise.body).toBe(mockResponse.data);
+  });
+
+  test('should return correct error if axios promise rejects with error.request', async () => {
+    const { sut, mockedAxios } = makeSut();
+    const mockResponse = mockHttpResponse();
+
+    mockedAxios.request.mockRejectedValueOnce({
+      request: mockResponse
+    });
+
+    const promise = await sut.request(mockHttpRequest());
+    expect(promise.statusCode).toBe(mockResponse.status);
+    expect(promise.body).toBe(mockResponse.data);
+  });
+
+  test('should return correct error if axios promise rejects with error.message', async () => {
+    const { sut, mockedAxios } = makeSut();
+    const mockResponse = mockHttpResponse();
+
+    mockedAxios.request.mockRejectedValueOnce({
+      message: mockResponse
     });
 
     const promise = await sut.request(mockHttpRequest());

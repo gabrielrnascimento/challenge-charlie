@@ -4,6 +4,7 @@ import { type HttpRequest, type HttpClient, type HttpResponse } from '@/data/pro
 
 export const mockHttpRequest = (): HttpRequest => ({
   url: faker.internet.url(),
+  params: faker.random.word(),
   method: 'get',
   body: faker.random.words,
   headers: faker.random.word
