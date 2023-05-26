@@ -11,6 +11,7 @@ export type HttpRequest<P = any, B = any, H = any> = {
 export enum HttpStatus {
   ok = 200,
   badRequest = 400,
+  unauthorized = 401,
   notFound = 404,
   serverError = 500
 }
