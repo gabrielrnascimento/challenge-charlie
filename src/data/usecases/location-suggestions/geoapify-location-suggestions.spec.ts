@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { HttpStatus } from '@/data/protocols/http';
 import { HttpClientSpy } from '@/data/test';
-import { UnexpectedError } from '@/domain/errors';
+import { UnauthorizedError, UnexpectedError } from '@/domain/errors';
 
 import { GeoapifyLocationSuggestions } from './geoapify-location-suggestions';
 
@@ -54,5 +54,17 @@ describe('GeoapifyLocationSuggestions', () => {
     httpClientSpy.response.statusCode = HttpStatus.badRequest;
     const response = sut.load(searchTerm);
     await expect(response).rejects.toThrow(new UnexpectedError(UnexpectedError.MESSAGE));
+  });
+
+  test('should throw UnauthorizedError on 401', async () => {
+    const {
+      sut,
+      httpClientSpy,
+      searchTerm
+    } = makeSut();
+
+    httpClientSpy.response.statusCode = HttpStatus.unauthorized;
+    const response = sut.load(searchTerm);
+    await expect(response).rejects.toThrow(new UnauthorizedError(UnauthorizedError.MESSAGE));
   });
 });
