@@ -1,4 +1,5 @@
-import { type HttpClient } from '@/data/protocols/http';
+import { HttpStatus, type HttpClient } from '@/data/protocols/http';
+import { UnexpectedError } from '@/domain/errors';
 
 export class GeoapifyLocationSuggestions {
   readonly url: string = process.env.GEOAPIFY_API_URL as string;
@@ -7,17 +8,23 @@ export class GeoapifyLocationSuggestions {
 
   constructor(private readonly httpClient: HttpClient) {}
 
-  load (term: string): void{
+  async load (term: string): Promise<void>{
     this.params = {
       text: term,
       apiKey: this.key,
       lang: 'pt'
     };
 
-    this.httpClient.request({
+    const response = await this.httpClient.request({
       method: 'get',
       url: this.url,
       params: this.params,
     });
+
+    switch (response.statusCode) {
+      case HttpStatus.badRequest:
+        throw new UnexpectedError();
+      default:
+    }
   }
 }
