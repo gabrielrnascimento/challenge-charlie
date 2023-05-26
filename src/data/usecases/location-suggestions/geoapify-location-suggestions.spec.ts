@@ -31,6 +31,8 @@ describe('GeoapifyLocationSuggestions', () => {
       searchTerm
     } = makeSut();
 
+    httpClientSpy.response.statusCode = HttpStatus.ok;
+
     sut.load(searchTerm);
 
     const {
@@ -66,5 +68,17 @@ describe('GeoapifyLocationSuggestions', () => {
     httpClientSpy.response.statusCode = HttpStatus.unauthorized;
     const response = sut.load(searchTerm);
     await expect(response).rejects.toThrow(new UnauthorizedError(UnauthorizedError.MESSAGE));
+  });
+
+  test('should throw UnexpectedError on 404', async () => {
+    const {
+      sut,
+      httpClientSpy,
+      searchTerm
+    } = makeSut();
+
+    httpClientSpy.response.statusCode = HttpStatus.notFound;
+    const response = sut.load(searchTerm);
+    await expect(response).rejects.toThrow(new UnexpectedError(UnexpectedError.MESSAGE));
   });
 });
