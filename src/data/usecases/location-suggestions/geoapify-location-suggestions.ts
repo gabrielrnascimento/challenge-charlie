@@ -26,6 +26,8 @@ export class GeoapifyLocationSuggestions {
         throw new UnexpectedError(UnexpectedError.MESSAGE);
       case HttpStatus.notFound:
         throw new UnexpectedError(UnexpectedError.MESSAGE);
+      case HttpStatus.serverError:
+        throw new UnexpectedError(UnexpectedError.MESSAGE);
       case HttpStatus.unauthorized:
         throw new UnauthorizedError(UnauthorizedError.MESSAGE);
       default:
