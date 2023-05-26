@@ -4,14 +4,25 @@ import { HttpClientSpy } from '@/data/test';
 
 import { GeoapifyLocationSuggestions } from './geoapify-location-suggestions';
 
+type SutTypes = {
+  sut: GeoapifyLocationSuggestions,
+  httpClientSpy: HttpClientSpy
+};
 
+const makeSut = (): SutTypes => {
+  const httpClientSpy = new HttpClientSpy();
+  const sut = new GeoapifyLocationSuggestions(httpClientSpy);
+  return {
+    sut,
+    httpClientSpy
+  };
+};
 
 describe('GeoapifyLocationSuggestions', () => {
   test('should call HttpClient with correct data', () => {
-    const httpClientSpy = new HttpClientSpy();
-    const geoapifyLocationSuggestion = new GeoapifyLocationSuggestions(httpClientSpy);
+    const { sut, httpClientSpy } = makeSut();
     const searchTerm = faker.address.cityName();
-    geoapifyLocationSuggestion.load(searchTerm);
+    sut.load(searchTerm);
 
     const {
       method,
@@ -20,7 +31,7 @@ describe('GeoapifyLocationSuggestions', () => {
     } = httpClientSpy;
 
     expect(method).toBe('get');
-    expect(url).toBe(geoapifyLocationSuggestion.url);
-    expect(params).toBe(geoapifyLocationSuggestion.params);
+    expect(url).toBe(sut.url);
+    expect(params).toBe(sut.params);
   });
 });
