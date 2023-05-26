@@ -81,4 +81,16 @@ describe('GeoapifyLocationSuggestions', () => {
     const response = sut.load(searchTerm);
     await expect(response).rejects.toThrow(new UnexpectedError(UnexpectedError.MESSAGE));
   });
+
+  test('should throw UnexpectedError on 500', async () => {
+    const {
+      sut,
+      httpClientSpy,
+      searchTerm
+    } = makeSut();
+
+    httpClientSpy.response.statusCode = HttpStatus.serverError;
+    const response = sut.load(searchTerm);
+    await expect(response).rejects.toThrow(new UnexpectedError(UnexpectedError.MESSAGE));
+  });
 });
