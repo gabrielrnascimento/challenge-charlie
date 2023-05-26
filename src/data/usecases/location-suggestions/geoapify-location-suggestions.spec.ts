@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import { HttpStatus } from '@/data/protocols/http';
-import { HttpClientSpy } from '@/data/test';
+import { HttpClientSpy, mockHttpClientGeoapifyLocationsResponse } from '@/data/test';
 import { UnauthorizedError, UnexpectedError } from '@/domain/errors';
 
 import { GeoapifyLocationSuggestions } from './geoapify-location-suggestions';
@@ -92,5 +92,20 @@ describe('GeoapifyLocationSuggestions', () => {
     httpClientSpy.response.statusCode = HttpStatus.serverError;
     const response = sut.load(searchTerm);
     await expect(response).rejects.toThrow(new UnexpectedError(UnexpectedError.MESSAGE));
+  });
+
+  test('should return location suggestions on 200', async () => {
+    const {
+      sut,
+      httpClientSpy,
+      searchTerm
+    } = makeSut();
+
+    const mockedLocationSuggestionsResponse = mockHttpClientGeoapifyLocationsResponse();
+    httpClientSpy.response = mockedLocationSuggestionsResponse;
+
+    const response = await sut.load(searchTerm);
+
+    expect(response).toBe(mockedLocationSuggestionsResponse);
   });
 });
