@@ -1,5 +1,5 @@
 import { HttpStatus, type HttpClient } from '@/data/protocols/http';
-import { UnexpectedError } from '@/domain/errors';
+import { UnauthorizedError, UnexpectedError } from '@/domain/errors';
 
 export class GeoapifyLocationSuggestions {
   readonly url: string = process.env.GEOAPIFY_API_URL as string;
@@ -24,6 +24,8 @@ export class GeoapifyLocationSuggestions {
     switch (response.statusCode) {
       case HttpStatus.badRequest:
         throw new UnexpectedError(UnexpectedError.MESSAGE);
+      case HttpStatus.unauthorized:
+        throw new UnauthorizedError(UnauthorizedError.MESSAGE);
       default:
     }
   }
