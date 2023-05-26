@@ -24,6 +24,8 @@ export class GeoapifyLocationSuggestions {
     switch (response.statusCode) {
       case HttpStatus.badRequest:
         throw new UnexpectedError(UnexpectedError.MESSAGE);
+      case HttpStatus.notFound:
+        throw new UnexpectedError(UnexpectedError.MESSAGE);
       case HttpStatus.unauthorized:
         throw new UnauthorizedError(UnauthorizedError.MESSAGE);
       default:
