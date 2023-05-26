@@ -1,14 +1,15 @@
-import { HttpStatus, type HttpClient } from '@/data/protocols/http';
+import { HttpStatus, type HttpClient, type HttpResponse } from '@/data/protocols/http';
 import { UnauthorizedError, UnexpectedError } from '@/domain/errors';
+import { type LocationSuggestions } from '@/domain/usecases/location-suggestions';
 
-export class GeoapifyLocationSuggestions {
+export class GeoapifyLocationSuggestions implements LocationSuggestions {
   readonly url: string = process.env.GEOAPIFY_API_URL as string;
   readonly key: string = process.env.GEOAPIFY_API_KEY as string;
   params!: any;
 
   constructor(private readonly httpClient: HttpClient) {}
 
-  async load (term: string): Promise<void>{
+  async load (term: LocationSuggestions.Params): Promise<HttpResponse<LocationSuggestions.Model>>{
     this.params = {
       text: term,
       apiKey: this.key,
@@ -22,15 +23,12 @@ export class GeoapifyLocationSuggestions {
     });
 
     switch (response.statusCode) {
-      case HttpStatus.badRequest:
-        throw new UnexpectedError(UnexpectedError.MESSAGE);
-      case HttpStatus.notFound:
-        throw new UnexpectedError(UnexpectedError.MESSAGE);
-      case HttpStatus.serverError:
-        throw new UnexpectedError(UnexpectedError.MESSAGE);
+      case HttpStatus.ok:
+        return response;
       case HttpStatus.unauthorized:
         throw new UnauthorizedError(UnauthorizedError.MESSAGE);
       default:
+        throw new UnexpectedError(UnexpectedError.MESSAGE);
     }
   }
 }
