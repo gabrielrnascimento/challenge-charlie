@@ -23,7 +23,7 @@ export class GeoapifyLocationSuggestions {
 
     switch (response.statusCode) {
       case HttpStatus.badRequest:
-        throw new UnexpectedError();
+        throw new UnexpectedError(UnexpectedError.MESSAGE);
       default:
     }
   }

@@ -53,6 +53,6 @@ describe('GeoapifyLocationSuggestions', () => {
 
     httpClientSpy.response.statusCode = HttpStatus.badRequest;
     const response = sut.load(searchTerm);
-    await expect(response).rejects.toThrow(new UnexpectedError());
+    await expect(response).rejects.toThrow(new UnexpectedError(UnexpectedError.MESSAGE));
   });
 });

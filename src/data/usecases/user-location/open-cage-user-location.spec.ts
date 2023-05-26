@@ -50,21 +50,21 @@ describe('OpenCageUserLocation', () => {
     const { httpClientSpy, sut } = makeSut();
     httpClientSpy.response.statusCode = HttpStatus.badRequest;
     const response = sut.get();
-    await expect(response).rejects.toThrow(new UnexpectedError());
+    await expect(response).rejects.toThrow(new UnexpectedError(UnexpectedError.MESSAGE));
   });
 
   test('should throw UnexpectedError on 404', async () => {
     const { httpClientSpy, sut } = makeSut();
     httpClientSpy.response.statusCode = HttpStatus.notFound;
     const response = sut.get();
-    await expect(response).rejects.toThrow(new UnexpectedError());
+    await expect(response).rejects.toThrow(new UnexpectedError(UnexpectedError.MESSAGE));
   });
 
   test('should throw UnexpectedError on 500', async () => {
     const { httpClientSpy, sut } = makeSut();
     httpClientSpy.response.statusCode = HttpStatus.serverError;
     const response = sut.get();
-    await expect(response).rejects.toThrow(new UnexpectedError());
+    await expect(response).rejects.toThrow(new UnexpectedError(UnexpectedError.MESSAGE));
   });
 
   test('should return UserLocation.Model on success', async () => {

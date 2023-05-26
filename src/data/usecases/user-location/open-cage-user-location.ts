@@ -41,7 +41,7 @@ export class OpenCageUserLocation implements UserLocation {
         };
       }
       default:
-        throw new UnexpectedError();
+        throw new UnexpectedError(UnexpectedError.MESSAGE);
     }
   }
 }

@@ -1,7 +1,9 @@
 export class UnexpectedError extends Error {
-  /* istanbul ignore next */
-  constructor () {
-    super('An unexpected error occurred!');
+
+  public static MESSAGE = 'An unexpected error occurred!';
+
+  constructor (message: string) {
+    super(message);
     this.name = 'UnexpectedError';
   }
 }
