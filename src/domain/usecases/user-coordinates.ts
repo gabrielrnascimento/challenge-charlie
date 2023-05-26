@@ -1,9 +1,9 @@
-import { type UserCoordinatesModel } from '@/data/models/user-coordinates-model';
+import { type CoordinatesModel } from '@/data/models/coordinates-model';
 
 export interface UserCoordinates {
   get: () => Promise<UserCoordinates.Model>
 }
 
 export namespace UserCoordinates {
-  export type Model = UserCoordinatesModel;
+  export type Model = CoordinatesModel;
 }

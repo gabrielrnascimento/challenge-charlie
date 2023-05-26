@@ -1,4 +1,4 @@
-export type UserCoordinatesModel = {
+export type CoordinatesModel = {
   latitude: number,
   longitude: number
 };

@@ -26,7 +26,7 @@ export class BrowserUserCoordinates implements UserCoordinates{
       if (error.code === 1) {
         throw new UserDeniedGeolocationError();
       } else {
-        throw new UnexpectedError();
+        throw new UnexpectedError(UnexpectedError.MESSAGE);
       }
     }
     return {

@@ -33,6 +33,6 @@ describe('BrowserUserCoordinates', () => {
     mockErrorGeolocation(mockError);
     const browserUserCoordinates = new BrowserUserCoordinates();
     const response = browserUserCoordinates.get();
-    await expect(response).rejects.toThrow(new UnexpectedError()) ;
+    await expect(response).rejects.toThrow(new UnexpectedError(UnexpectedError.MESSAGE)) ;
   });
 });
